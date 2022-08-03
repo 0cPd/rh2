@@ -1,0 +1,37 @@
+local sound = Instance.new("Sound", game.Workspace)
+sound.Volume = 5
+sound.SoundId = "rbxassetid://8697636436" 
+sound.Looped = false
+sound:Play()
+
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheAbsolutionism/Wally-GUI-Library-V2-Remastered/main/Library%20Code", true))()
+
+library.options.underlinecolor = 'rainbow' 
+library.options.toggledisplay = 'Check'
+
+local Window = library:CreateWindow('AUTO RELEASE') 
+
+  Window:Label('Hold "E" when shooting')
+    Window:Label('Adjust the shooting delay')
+    local Slider = Window:Slider('Delay',{ -- 1st Arg = Name of Slider Displayed
+        ['default'] = 0.59; -- Arg to manually set Slider location when created, if not set, will set to min
+        ['min'] = 0.55; -- Sets how low the slider can go
+        ['max'] = 0.71; -- sets hoe high the slider can go
+        ['precise'] = true; -- when true only does whole numbers (0,1,2), when flase does decimals (0.1,0.2,0.3)
+        ['flag'] = 'shoot'; -- Name to be called upon when applied to specified table or default table of library
+        ['location'] = {}; -- Can be edited for any table or will be placed in Window.flags
+    },function(Value)-- callback function when slider is changed
+    _G.Shoot = (Value)
+game.Players.LocalPlayer:GetMouse().KeyDown:Connect(function(KeyPressed)
+ if KeyPressed == "e" then
+wait(_G.Shoot) 
+local args = {
+    [1] = false,
+    [2] = "Shooting",
+    [3] = "Standing Shot"
+}
+
+game:GetService("Players").LocalPlayer.Backpack.PlayerEvents.Shooting:FireServer(unpack(args))
+end
+end)
+    end)
